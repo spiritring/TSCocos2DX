@@ -2112,7 +2112,7 @@
 				30EC7E4716D09F3900952E29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		30EC7E4816D09F3900952E29 /* Build configuration list for PBXNativeTarget "TSCocos2DX" */ = {
 			isa = XCConfigurationList;
@@ -2121,7 +2121,7 @@
 				30EC7E4A16D09F3900952E29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

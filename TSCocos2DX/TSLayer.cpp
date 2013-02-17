@@ -10,12 +10,13 @@
 #include "SimpleAudioEngine.h"
 #include "NEAStar.h"
 #include "TSPoint.h"
+#include <cmath>
 
 using namespace cocos2d;
 using namespace CocosDenshion;
 
 TSLayer::TSLayer()
-: m_Map(NULL),m_Star(NULL),m_Choose(NULL)
+: m_Map(NULL),m_Star(NULL),m_Choose(NULL),m_iIndexPath(0)
 {
     m_Map = new TSMap();
     m_Star = new NEAStar();
@@ -53,6 +54,7 @@ bool TSLayer::init()
     }
     
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,false);
+    //this->schedule(schedule_selector(TSLayer::GameUpdata),0.1);
     //this->setTouchEnabled(true);
     
     // ask director the window size
@@ -96,6 +98,14 @@ bool TSLayer::init()
         this->addChild(pT, 2, 1);
     }
     
+    m_Choose = (TSSprite*)CCSprite::create("chess6.png");
+    m_Choose->pos.m_x = 0;
+    m_Choose->pos.m_y = 0;
+    CCPoint pP = m_pMeshPos[0][0];
+    m_Choose->setPosition(pP);
+    m_Choose->setScale(2);
+    this->addChild(m_Choose, 2, 1);
+    
     return true;
 }
 
@@ -117,6 +127,8 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     int x = 0;
     int y = 0;
     
+    //m_Choose->setPosition(touchLocation);
+    
     x = pGY.x / 33;
     y = pGY.y / 33;
     
@@ -130,12 +142,12 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
         this->removeChild(*iter, true);
     }
+    m_pPath.clear();
+    m_iIndexPath = 0;
     
     //new to find for best path
-    TSPoint pO = TSPoint(5,4);
+    TSPoint pO = TSPoint(m_Choose->pos.m_x, m_Choose->pos.m_y);
     TSPoint pT = TSPoint(x,y);
-    
-    //m_Star = new NEAStar();
     
 	m_Star->Init(pO, pT, m_Map);
     m_Star->run();
@@ -146,6 +158,7 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         return false;
     }
     
+    std::list<TSPoint*> pR;
     while (TSNode->pFather != NULL)
     {
         CCSprite* pT = CCSprite::create("chess2.png");
@@ -155,11 +168,77 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         this->addChild(pT, 2, 1);
         m_pPathSpriteList.push_back(pT);
         
+        pR.push_front(&TSNode->pPos);
+        
         TSNode = TSNode->pFather;
     }
     
+    std::list<TSPoint*>::iterator iter = pR.begin();
+    for (; iter != pR.end(); iter++) {
+        m_pPath.push_back(**iter);
+    }
+
+
     
     return true;
 }
+
+void TSLayer::draw()
+{
+    if (m_pPath.size() <= 0) {
+        return;
+    }
+    
+    if (m_pPath.size() <= m_iIndexPath) {
+        return;
+    }
+    TSPoint pPos = m_pPath[m_iIndexPath];
+    
+    CCPoint pEnd = m_pMeshPos[pPos.m_x][pPos.m_y];
+    const CCPoint& pT = m_Choose->getPosition();
+    //{
+        CCPoint pMove = pT;
+        
+        if (abs(pEnd.x - pT.x) < 4 && abs(pEnd.y - pT.y) < 4 )
+        {
+            m_iIndexPath ++;
+            m_Choose->pos = pPos;
+            pMove = pEnd;
+        }
+        else
+        {
+            if (pEnd.x < pT.x)
+            {
+                pMove.x -= 4;
+                
+            }
+            else if (pEnd.x > pT.x)
+            {
+                pMove.x += 4;
+            }
+            
+            if (pEnd.y < pT.y)
+            {
+                pMove.y -= 4;
+            }
+            else if (pEnd.y > pT.y)
+            {
+                pMove.y += 4;
+            }
+        }
+        
+        m_Choose->setPosition(pMove);
+    //}
+}
+
+
+
+
+
+
+
+
+
+
 
 

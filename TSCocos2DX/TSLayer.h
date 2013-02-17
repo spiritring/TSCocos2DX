@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 #include "cocos2d.h"
 #include "TSSprite.h"
 
@@ -32,10 +33,16 @@ public:
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
     
+    // touch call back
     bool ccTouchBegan(cocos2d::CCTouch* pTouch, cocos2d::CCEvent* event);
+    
+    // Frame Updata
+    void GameUpdata(cocos2d::CCTime cTime);
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(TSLayer);
+    
+    void draw();
     
 private:
     cocos2d::CCPoint m_pMeshPos[9][9];
@@ -47,6 +54,9 @@ private:
     TSSprite* m_Choose;
     
     std::list<cocos2d::CCSprite*> m_pPathSpriteList;
+    
+    std::vector<TSPoint> m_pPath;
+    int m_iIndexPath;
 };
 
 #endif /* defined(__TSCocos2DX__TSLayer__) */

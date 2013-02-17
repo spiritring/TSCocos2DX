@@ -89,11 +89,18 @@ public:
 
 class NEAStar {
 public:
-	NEAStar() {
-        
-        
+	NEAStar()
+    {
         
 	}
+    
+    ~NEAStar()
+    {
+        for (std::list<TSNode*>::iterator iter = releasePool.begin(); iter != releasePool.end();
+             iter++) {
+            delete *iter;
+        }
+    }
 
 	inline bool isCloseList(TSPoint& pos)
 	{
