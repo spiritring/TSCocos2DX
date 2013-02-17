@@ -10,6 +10,7 @@
 #include "SimpleAudioEngine.h"
 #include "NEAStar.h"
 #include "TSPoint.h"
+#include "CCArray.h"
 #include <cmath>
 #include <stdlib.h>
 
@@ -86,29 +87,6 @@ bool TSLayer::init()
     
     random3Ball();
     
-//    for (int i = 0; i < m_Map->m_width*m_Map->m_height; i++) {
-//        int l = i / m_Map->m_width;
-//        int h = i % m_Map->m_height;
-//        
-//        if (m_Map->m_TSMap[i] == 0) {
-//            continue;
-//        }
-//        
-//        CCSprite* pT = CCSprite::create("chess1.png");
-//        CCPoint pP = m_pMeshPos[l][h];
-//        pT->setPosition(pP);
-//        pT->setScale(2);
-//        this->addChild(pT, 2, 1);
-//    }
-    
-//    m_Choose = (TSSprite*)CCSprite::create("chess6.png");
-//    m_Choose->pos.m_x = 0;
-//    m_Choose->pos.m_y = 0;
-//    CCPoint pP = m_pMeshPos[0][0];
-//    m_Choose->setPosition(pP);
-//    m_Choose->setScale(2);
-//    this->addChild(m_Choose, 2, 1);
-    
     return true;
 }
 
@@ -152,6 +130,10 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     printf("我被点中了! x = %d y = %d \n", xy.m_x, xy.m_y);
     
     if (m_iStat == 0) {
+        if (m_Choose != NULL) {
+            m_Choose->setScale(2);
+        }
+        
         m_Choose = GetMeshSprite(xy);
         if (m_Choose != NULL) {
             m_iStat = 1;
@@ -174,9 +156,11 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         m_Star->run();
         
         TSNode* TSNode = m_Star->getResult();
-        if (TSNode->pPos.m_x != pT.m_x && TSNode->pPos.m_y != pT.m_y) {
+        if (TSNode->pPos.m_x != pT.m_x || TSNode->pPos.m_y != pT.m_y) {
             printf("错误的寻路!");
             m_iStat = 0;
+            m_Choose->setScale(2);
+            m_Choose = NULL;
             return false;
         }
         
@@ -207,9 +191,30 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     return true;
 }
 
+float effectXXX = 1.0f;
+float effectXXXIndex = 1.0f;
+
 void TSLayer::draw()
 {
+    if (m_Choose != NULL) {
+        
+        if (effectXXX < 1) {
+            effectXXXIndex = 1;
+            effectXXX = 1;
+        }
+        else if (effectXXX >= 2) {
+            effectXXXIndex = -1;
+            effectXXX = 2;
+        }
+        
+        effectXXX += 0.1 * effectXXXIndex;
+        
+        m_Choose->setScale(effectXXX);
+    }
+    
     if (m_iStat != 2) {
+
+        
         return;
     }
     
