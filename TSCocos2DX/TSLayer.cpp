@@ -199,7 +199,7 @@ void TSLayer::draw()
     //{
         CCPoint pMove = pT;
         
-        if (abs(pEnd.x - pT.x) < 4 && abs(pEnd.y - pT.y) < 4 )
+        if (abs(pEnd.x - pT.x) < 8 && abs(pEnd.y - pT.y) < 8 )
         {
             m_iIndexPath ++;
             m_Choose->pos = pPos;
@@ -209,21 +209,21 @@ void TSLayer::draw()
         {
             if (pEnd.x < pT.x)
             {
-                pMove.x -= 4;
+                pMove.x -= 8;
                 
             }
             else if (pEnd.x > pT.x)
             {
-                pMove.x += 4;
+                pMove.x += 8;
             }
             
             if (pEnd.y < pT.y)
             {
-                pMove.y -= 4;
+                pMove.y -= 8;
             }
             else if (pEnd.y > pT.y)
             {
-                pMove.y += 4;
+                pMove.y += 8;
             }
         }
         
