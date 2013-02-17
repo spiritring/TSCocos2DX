@@ -35,9 +35,15 @@ public:
     
     // touch call back
     bool ccTouchBegan(cocos2d::CCTouch* pTouch, cocos2d::CCEvent* event);
+
+    // Game ////
     
-    // Frame Updata
-    void GameUpdata(cocos2d::CCTime cTime);
+    // Random 3 ball
+    bool random3Ball();
+    
+    bool randomBall();
+    
+    TSSprite* GetMeshSprite(TSPoint& pos);
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(TSLayer);
@@ -52,11 +58,14 @@ private:
     
     //Game
     TSSprite* m_Choose;
+    std::vector<TSSprite*> m_SpiritPool;
     
     std::list<cocos2d::CCSprite*> m_pPathSpriteList;
     
     std::vector<TSPoint> m_pPath;
     int m_iIndexPath;
+    
+    int m_iStat;
 };
 
 #endif /* defined(__TSCocos2DX__TSLayer__) */

@@ -11,12 +11,13 @@
 #include "NEAStar.h"
 #include "TSPoint.h"
 #include <cmath>
+#include <stdlib.h>
 
 using namespace cocos2d;
 using namespace CocosDenshion;
 
 TSLayer::TSLayer()
-: m_Map(NULL),m_Star(NULL),m_Choose(NULL),m_iIndexPath(0)
+: m_Map(NULL),m_Star(NULL),m_Choose(NULL),m_iIndexPath(0),m_iStat(0)
 {
     m_Map = new TSMap();
     m_Star = new NEAStar();
@@ -83,28 +84,30 @@ bool TSLayer::init()
         }
     }
     
-    for (int i = 0; i < m_Map->m_width*m_Map->m_height; i++) {
-        int l = i / m_Map->m_width;
-        int h = i % m_Map->m_height;
-        
-        if (m_Map->m_TSMap[i] == 0) {
-            continue;
-        }
-        
-        CCSprite* pT = CCSprite::create("chess1.png");
-        CCPoint pP = m_pMeshPos[l][h];
-        pT->setPosition(pP);
-        pT->setScale(2);
-        this->addChild(pT, 2, 1);
-    }
+    random3Ball();
     
-    m_Choose = (TSSprite*)CCSprite::create("chess6.png");
-    m_Choose->pos.m_x = 0;
-    m_Choose->pos.m_y = 0;
-    CCPoint pP = m_pMeshPos[0][0];
-    m_Choose->setPosition(pP);
-    m_Choose->setScale(2);
-    this->addChild(m_Choose, 2, 1);
+//    for (int i = 0; i < m_Map->m_width*m_Map->m_height; i++) {
+//        int l = i / m_Map->m_width;
+//        int h = i % m_Map->m_height;
+//        
+//        if (m_Map->m_TSMap[i] == 0) {
+//            continue;
+//        }
+//        
+//        CCSprite* pT = CCSprite::create("chess1.png");
+//        CCPoint pP = m_pMeshPos[l][h];
+//        pT->setPosition(pP);
+//        pT->setScale(2);
+//        this->addChild(pT, 2, 1);
+//    }
+    
+//    m_Choose = (TSSprite*)CCSprite::create("chess6.png");
+//    m_Choose->pos.m_x = 0;
+//    m_Choose->pos.m_y = 0;
+//    CCPoint pP = m_pMeshPos[0][0];
+//    m_Choose->setPosition(pP);
+//    m_Choose->setScale(2);
+//    this->addChild(m_Choose, 2, 1);
     
     return true;
 }
@@ -119,79 +122,133 @@ static CCRect getRect(CCNode* pNode)
     return rc;
 }
 
+TSSprite* TSLayer::GetMeshSprite(TSPoint& pos)
+{
+    TSSprite* spr = NULL;
+    std::vector<TSSprite*>::iterator iter = m_SpiritPool.begin();
+    for (; iter != m_SpiritPool.end(); iter++) {
+        TSSprite* spr = *iter;
+        if (spr->pos.m_x == pos.m_x && spr->pos.m_y == pos.m_y) {
+            return *iter;
+        }
+    }
+    return spr;
+}
+
 bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
 {
     CCPoint touchLocation = convertTouchToNodeSpace(pTouch);
     CCPoint pGY = CCPoint(touchLocation.x - m_pOO.x , touchLocation.y - m_pOO.y);
     
-    int x = 0;
-    int y = 0;
+    TSPoint xy;
     
-    //m_Choose->setPosition(touchLocation);
+    xy.m_x = pGY.x / 33;
+    xy.m_y = pGY.y / 33;
     
-    x = pGY.x / 33;
-    y = pGY.y / 33;
-    
-    if (x > 8 || y > 8) {
+    if (xy.m_x > 8 || xy.m_y > 8) {
         return false;
     }
     
-    printf("我被点中了! x = %d y = %d \n", x, y);
+    printf("我被点中了! x = %d y = %d \n", xy.m_x, xy.m_y);
     
-    //clear path sprite
-    for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
-        this->removeChild(*iter, true);
+    if (m_iStat == 0) {
+        m_Choose = GetMeshSprite(xy);
+        if (m_Choose != NULL) {
+            m_iStat = 1;
+        }
     }
-    m_pPath.clear();
-    m_iIndexPath = 0;
-    
-    //new to find for best path
-    TSPoint pO = TSPoint(m_Choose->pos.m_x, m_Choose->pos.m_y);
-    TSPoint pT = TSPoint(x,y);
-    
-	m_Star->Init(pO, pT, m_Map);
-    m_Star->run();
-    
-    TSNode* TSNode = m_Star->getResult();
-    if (TSNode->pPos.m_x != x && TSNode->pPos.m_y != y) {
-        printf("错误的寻路!");
-        return false;
-    }
-    
-    std::list<TSPoint*> pR;
-    while (TSNode->pFather != NULL)
+    else if(m_iStat == 1)
     {
-        CCSprite* pT = CCSprite::create("chess2.png");
-        CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
-        pT->setPosition(pP);
-        //pT->setScale(2);
-        this->addChild(pT, 2, 1);
-        m_pPathSpriteList.push_back(pT);
+        //clear path sprite
+//        for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
+//            this->removeChild(*iter, true);
+//        }
+        m_pPath.clear();
+        m_iIndexPath = 0;
         
-        pR.push_front(&TSNode->pPos);
+        //new to find for best path
+        TSPoint pO = TSPoint(m_Choose->pos.m_x, m_Choose->pos.m_y);
+        TSPoint pT = xy;
         
-        TSNode = TSNode->pFather;
+        m_Star->Init(pO, pT, m_Map);
+        m_Star->run();
+        
+        TSNode* TSNode = m_Star->getResult();
+        if (TSNode->pPos.m_x != pT.m_x && TSNode->pPos.m_y != pT.m_y) {
+            printf("错误的寻路!");
+            m_iStat = 0;
+            return false;
+        }
+        
+        std::list<TSPoint*> pR;
+        while (TSNode->pFather != NULL)
+        {
+//            CCSprite* pT = CCSprite::create("chess2.png");
+//            CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
+//            pT->setPosition(pP);
+//            //pT->setScale(2);
+//            this->addChild(pT, 2, 1);
+//            m_pPathSpriteList.push_back(pT);
+            
+            pR.push_front(&TSNode->pPos);
+            
+            TSNode = TSNode->pFather;
+        }
+        
+        std::list<TSPoint*>::iterator iter = pR.begin();
+        for (; iter != pR.end(); iter++) {
+            m_pPath.push_back(**iter);
+        }
+        
+        m_iStat = 2;
+        m_Map->m_TSMap[m_Choose->pos.m_x * m_Map->m_width + m_Choose->pos.m_y] = 0;
     }
-    
-    std::list<TSPoint*>::iterator iter = pR.begin();
-    for (; iter != pR.end(); iter++) {
-        m_pPath.push_back(**iter);
-    }
-
-
     
     return true;
 }
 
 void TSLayer::draw()
 {
+    if (m_iStat != 2) {
+        return;
+    }
+    
     if (m_pPath.size() <= 0) {
         return;
     }
     
     if (m_pPath.size() <= m_iIndexPath) {
+        
+        TSPoint iter = m_pPath.back();
+        int l = iter.m_x;
+        int h = iter.m_y;
+        m_Map->m_TSMap[l * m_Map->m_width + h] = 1;
+        
+        m_iStat = 0;
+        random3Ball();
+        
+        for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
+            this->removeChild(*iter, true);
+        }
+        m_pPathSpriteList.clear();
+
+        for (int i = 0; i < m_Map->m_width*m_Map->m_height; i++) {
+            int l = i / m_Map->m_width;
+            int h = i % m_Map->m_height;
+        
+            if (m_Map->m_TSMap[i] == 0) {
+                continue;
+            }
+            CCSprite* pT = CCSprite::create("chess1.png");
+            m_pPathSpriteList.push_back(pT);
+            CCPoint pP = m_pMeshPos[l][h];
+            pT->setPosition(pP);
+            //pT->setScale(2);
+            this->addChild(pT, 2, 1);
+        }
         return;
     }
+    
     TSPoint pPos = m_pPath[m_iIndexPath];
     
     CCPoint pEnd = m_pMeshPos[pPos.m_x][pPos.m_y];
@@ -231,7 +288,52 @@ void TSLayer::draw()
     //}
 }
 
+bool TSLayer::randomBall()
+{
+    std::vector<std::pair<int, int> > EmptyMap;
+    for (int i = 0; i < m_Map->m_width * m_Map->m_height; i++) {
+        if (m_Map->m_TSMap[i] == 0) {
+            int l = i / m_Map->m_width;
+            int h = i % m_Map->m_height;
+            EmptyMap.push_back(std::make_pair(l, h));
+        }
+    }
+    
+    if (EmptyMap.size() <= 0) {
+        return false;
+    }
+    
+    int choose = rand() % EmptyMap.size();
+    
+    TSPoint Pos;
+    Pos.m_x = EmptyMap[choose].first;
+    Pos.m_y = EmptyMap[choose].second;
+    
+    char buffer[32] = {0};
+    sprintf(buffer, "%d", (int)rand()%5);
+    TSSprite* spr = TSSprite::CreateSprite(Pos, buffer);
+    CCPoint loc = m_pMeshPos[Pos.m_x][Pos.m_y];
+    spr->setPosition(loc);
+    spr->setScale(2);
+    this->addChild(spr);
+    
+    m_Map->m_TSMap[Pos.m_x * m_Map->m_width + Pos.m_y] = 1;
+    
+    m_SpiritPool.push_back(spr);
+    
+    return true;
+}
 
+bool TSLayer::random3Ball()
+{
+    for (int i = 0; i < 3; i++) {
+        if(!randomBall())
+        {
+            return false;
+        }
+    }
+    return true;
+}
 
 
 

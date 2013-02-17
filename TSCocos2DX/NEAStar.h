@@ -42,11 +42,13 @@ public:
 	TSMap() {
 		m_width = 9;
 		m_height = 9;
-		m_TSMap = tTSMap;
+		m_TSMap = new char[m_width*m_height];
 		m_TSMapclose = new char[m_width*m_height];
 		memset(m_TSMapclose,0,sizeof(char)*m_width*m_height);
+        memset(m_TSMap,0,sizeof(char)*m_width*m_height);
 	}
 	~TSMap() {
+        delete m_TSMap;
         delete m_TSMapclose;
 	}
 
