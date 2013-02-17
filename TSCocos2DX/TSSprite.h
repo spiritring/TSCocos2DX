@@ -27,6 +27,7 @@ public:
 
         TSSprite *pobSprite = new TSSprite();
         pobSprite->pos = sPos;
+        pobSprite->iColor = atoi(cColor);
         
         if (pobSprite && pobSprite->initWithFile(filepath.c_str()))
         {
@@ -37,6 +38,7 @@ public:
         return NULL;
     }
     
+public:
     TSPoint pos;
     int iColor;
 };

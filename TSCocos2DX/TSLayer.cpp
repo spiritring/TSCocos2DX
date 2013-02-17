@@ -141,10 +141,6 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     }
     else if(m_iStat == 1)
     {
-        //clear path sprite
-//        for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
-//            this->removeChild(*iter, true);
-//        }
         m_pPath.clear();
         m_iIndexPath = 0;
         
@@ -191,6 +187,18 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     return true;
 }
 
+bool TSLayer::removeBall()
+{
+    if (m_Choose == NULL) {
+        return false;
+    }
+    
+    
+    
+    return true;
+}
+
+
 float effectXXX = 1.0f;
 float effectXXXIndex = 1.0f;
 
@@ -230,7 +238,14 @@ void TSLayer::draw()
         m_Map->m_TSMap[l * m_Map->m_width + h] = 1;
         
         m_iStat = 0;
-        random3Ball();
+        
+        if (removeBall()) {
+            //add score
+        }
+        else {
+            //add 3 ball
+            random3Ball();
+        }
         
         for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
             this->removeChild(*iter, true);

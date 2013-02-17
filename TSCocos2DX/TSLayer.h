@@ -45,6 +45,9 @@ public:
     
     TSSprite* GetMeshSprite(TSPoint& pos);
     
+    // RemoveBall
+    bool removeBall();
+    
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(TSLayer);
     
