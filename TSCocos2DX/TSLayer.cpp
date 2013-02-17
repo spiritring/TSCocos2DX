@@ -39,6 +39,9 @@ bool TSLayer::init()
         return false;
     }
     
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,false);
+    //this->setTouchEnabled(true);
+    
     // ask director the window size
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
@@ -57,11 +60,11 @@ bool TSLayer::init()
     }
     
     CCRect pR = pMesh->getTextureRect();
-    CCPoint pOO = ccp(size.width/2 - pR.size.width/2, size.height/2 - pR.size.height/2);
+    m_pOO = ccp(size.width/2 - pR.size.width/2, size.height/2 - pR.size.height/2);
         
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
-            m_pMeshPos[i][j] = ccp(pOO.x + i * 33 + 32/2, pOO.y + j * 33 + 32/2);
+            m_pMeshPos[i][j] = ccp(m_pOO.x + i * 33 + 32/2, m_pOO.y + j * 33 + 32/2);
         }
     }
     
@@ -105,6 +108,36 @@ bool TSLayer::init()
     pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
     this->addChild(pBall, 2, 1);
 
+    
+    return true;
+}
+
+static CCRect getRect(CCNode* pNode)
+{
+    CCRect rc;
+    rc.origin = pNode->getPosition();
+    rc.size = pNode->getContentSize();
+    rc.origin.x -= rc.size.width*0.5;
+    rc.origin.y -= rc.size.height*0.5;
+    return rc;
+}
+
+bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
+{
+    CCPoint touchLocation = convertTouchToNodeSpace(pTouch);
+    CCPoint pGY = CCPoint(touchLocation.x - m_pOO.x , touchLocation.y - m_pOO.y);
+    
+    int x = 0;
+    int y = 0;
+    
+    x = pGY.x / 33;
+    y = pGY.y / 33;
+    
+    if (x > 8 || y > 8) {
+        return false;
+    }
+    
+    printf("我被点中了! x = %d y = %d \n", x, y);
     
     return true;
 }

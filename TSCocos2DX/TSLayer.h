@@ -24,11 +24,14 @@ public:
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
     
+    bool ccTouchBegan(cocos2d::CCTouch* pTouch, cocos2d::CCEvent* event);
+    
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(TSLayer);
     
 private:
     cocos2d::CCPoint m_pMeshPos[9][9];
+    cocos2d::CCPoint m_pOO;
 };
 
 #endif /* defined(__TSCocos2DX__TSLayer__) */
