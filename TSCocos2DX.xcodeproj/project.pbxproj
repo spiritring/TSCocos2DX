@@ -206,7 +206,6 @@
 		30EC7E3516D09F3900952E29 /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC7E3416D09F3900952E29 /* CCTableViewCell.cpp */; };
 		30EC7E3916D09F3900952E29 /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC7E3816D09F3900952E29 /* HttpClient.cpp */; };
 		30EC7E4216D09F3900952E29 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC7E4116D09F3900952E29 /* AppDelegate.cpp */; };
-		30EC7E4516D09F3900952E29 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC7E4416D09F3900952E29 /* HelloWorldScene.cpp */; };
 		30EC7E4D16D0A3F200952E29 /* TSLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EC7E4B16D0A3F200952E29 /* TSLayer.cpp */; };
 		30EC7E7416D0A5C700952E29 /* board_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 30EC7E4E16D0A5C300952E29 /* board_test.png */; };
 		30EC7E7516D0A5C700952E29 /* chess0.png in Resources */ = {isa = PBXBuildFile; fileRef = 30EC7E4F16D0A5C300952E29 /* chess0.png */; };
@@ -688,8 +687,6 @@
 		30EC7E3E16D09F3900952E29 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		30EC7E4016D09F3900952E29 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		30EC7E4116D09F3900952E29 /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
-		30EC7E4316D09F3900952E29 /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
-		30EC7E4416D09F3900952E29 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
 		30EC7E4B16D0A3F200952E29 /* TSLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSLayer.cpp; sourceTree = "<group>"; };
 		30EC7E4C16D0A3F200952E29 /* TSLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSLayer.h; sourceTree = "<group>"; };
 		30EC7E4E16D0A5C300952E29 /* board_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = board_test.png; path = Resources/board_test.png; sourceTree = "<group>"; };
@@ -1672,8 +1669,6 @@
 			children = (
 				30EC7E4016D09F3900952E29 /* AppDelegate.h */,
 				30EC7E4116D09F3900952E29 /* AppDelegate.cpp */,
-				30EC7E4316D09F3900952E29 /* HelloWorldScene.h */,
-				30EC7E4416D09F3900952E29 /* HelloWorldScene.cpp */,
 				30EC7E4B16D0A3F200952E29 /* TSLayer.cpp */,
 				30EC7E4C16D0A3F200952E29 /* TSLayer.h */,
 			);
@@ -1969,7 +1964,6 @@
 				30EC7E3516D09F3900952E29 /* CCTableViewCell.cpp in Sources */,
 				30EC7E3916D09F3900952E29 /* HttpClient.cpp in Sources */,
 				30EC7E4216D09F3900952E29 /* AppDelegate.cpp in Sources */,
-				30EC7E4516D09F3900952E29 /* HelloWorldScene.cpp in Sources */,
 				30EC7E4D16D0A3F200952E29 /* TSLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
