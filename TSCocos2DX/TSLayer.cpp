@@ -8,6 +8,8 @@
 
 #include "TSLayer.h"
 #include "SimpleAudioEngine.h"
+#include "NEAStar.h"
+#include "TSPoint.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -70,6 +72,17 @@ bool TSLayer::init()
             this->addChild(pT, 2, 1);
         }
     }
+    
+    NEAStar star;
+	TSMap map;
+    
+    TSPoint pO = TSPoint(2,0);
+    TSPoint pT = TSPoint(2,4);
+    
+	star.Init(pO, pT, &map);
+    star.run();
+    
+    star.PrintTSMap();
     
     return true;
 }
