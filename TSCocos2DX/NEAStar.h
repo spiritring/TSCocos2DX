@@ -30,8 +30,8 @@ char tTSMap[] =
 	0,0,1,0,0,1,0,0,0,
 	1,1,1,0,0,1,0,0,0,
 	0,0,0,0,0,1,0,0,0,
-	0,0,0,1,0,1,0,1,1,
-	0,0,1,1,0,0,0,0,1,
+	0,0,0,1,0,1,1,1,0,
+	0,0,1,1,0,0,0,0,0,
 	0,0,1,0,0,0,0,0,1,
     0,0,1,0,0,0,0,0,1,
 };
@@ -121,7 +121,7 @@ public:
 			closeList.push_back(note);
 			pTSMap->m_TSMapclose[note->pPos.m_x*pTSMap->m_width+note->pPos.m_y] = 1;
 
-			for (int i = 0 ; i < 8 ; i++)
+			for (int i = 0 ; i < 4 ; i++)
 			{
 				TSPoint _Pos;
 				_Pos.m_x = pCurrentPos.m_x + direction[i][0];
@@ -167,53 +167,6 @@ public:
 	TSNode* getResult()
 	{
 		return closeList.back();
-	}
-
-	void PrintTSMap()
-	{
-		char* _TSMap = pTSMap->m_TSMap;
-
-		TSNode* TSNode = getResult();
-		while (TSNode->pFather != NULL)
-		{
-			_TSMap[TSNode->pPos.m_x*pTSMap->m_width + TSNode->pPos.m_y] = '.';
-
-			TSNode = TSNode->pFather;
-		}
-
-		_TSMap[pStart.m_x*pTSMap->m_width+pStart.m_y] = 3;
-		_TSMap[pEnd.m_x*pTSMap->m_width+pEnd.m_y] = 2;
-// 
-// 		  		for (list<TSNode*>::iterator iter = closeList.begin() ; closeList.end() != iter ; iter++)
-// 		  		{
-// 		  			TSNode* TSNode = *iter;
-// 		  			_TSMap[TSNode->pPos.m_x * pTSMap->m_width + TSNode->pPos.m_y] = 2;
-// 		  		}
-
-		for (int i = 0; i < pTSMap->m_height ; i++)
-		{
-			for (int j = 0 ; j < pTSMap->m_width ; j++)
-			{
-				char c = _TSMap[i*pTSMap->m_width+j];
-				if (c == 0)
-				{
-					cout << " ";
-				}
-				else if (c == 1)
-				{
-					cout << "0";
-				}
-				else if (c == 2)
-				{
-					cout << "+";
-				}
-				else
-				{
-					cout << c;
-				}
-			}
-			cout << endl;
-		}
 	}
 
 public:
