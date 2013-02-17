@@ -199,12 +199,12 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     return true;
 }
 
-bool TSLayer::removeBall()
+bool TSLayer::removeBall(TSSprite* pChoose)
 {
-    if (m_Choose == NULL) {
+    if (pChoose == NULL) {
         return false;
     }
-    TSPoint pO = m_Choose->pos;
+    TSPoint pO = pChoose->pos;
     std::list<TSSprite*> pRList;
     
     std::list<TSSprite*> pUDList;
@@ -219,7 +219,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pUDList.push_back(spr);
             }
@@ -232,7 +232,7 @@ bool TSLayer::removeBall()
         }
     }
     
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     index = 0;
     //up down
     for (; ; index++) {
@@ -243,7 +243,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pUDList.push_back(spr);
             }
@@ -262,7 +262,7 @@ bool TSLayer::removeBall()
     
     
     /////////////////////////////
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     count = 0;
     index = 0;
     std::list<TSSprite*> pLRList;
@@ -275,7 +275,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pLRList.push_back(spr);
             }
@@ -288,7 +288,7 @@ bool TSLayer::removeBall()
         }
     }
     
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     index = 0;
     //up down
     for (; ; index++) {
@@ -299,7 +299,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pLRList.push_back(spr);
             }
@@ -318,7 +318,7 @@ bool TSLayer::removeBall()
     
     
     //  \//
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     count = 0;
     index = 0;
     std::list<TSSprite*> pXList;
@@ -332,7 +332,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pXList.push_back(spr);
             }
@@ -345,7 +345,7 @@ bool TSLayer::removeBall()
         }
     }
     
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     index = 0;
     //up down
     for (; ; index++) {
@@ -357,7 +357,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pXList.push_back(spr);
             }
@@ -375,7 +375,7 @@ bool TSLayer::removeBall()
     }
     
     ///////////////////
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     count = 0;
     index = 0;
     std::list<TSSprite*> pXXList;
@@ -388,7 +388,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pXXList.push_back(spr);
             }
@@ -401,7 +401,7 @@ bool TSLayer::removeBall()
         }
     }
     
-    pO = m_Choose->pos;
+    pO = pChoose->pos;
     index = 0;
     for (; ; index++) {
         pO.m_x++;
@@ -412,7 +412,7 @@ bool TSLayer::removeBall()
         
         TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
         if (spr != NULL) {
-            if (spr->iColor == m_Choose->iColor) {
+            if (spr->iColor == pChoose->iColor) {
                 count ++;
                 pXXList.push_back(spr);
             }
@@ -442,13 +442,12 @@ bool TSLayer::removeBall()
     }
     
     if (pRList.size() > 0) {
-        TSSprite* spr = m_Choose;
+        TSSprite* spr = pChoose;
         
         m_Map->m_TSMap[spr->pos.m_x * m_Map->m_width + spr->pos.m_y] = 0;
         m_MapSpr[spr->pos.m_x][spr->pos.m_y] = 0;
         this->removeChild(spr, true);
         m_SpiritPool.erase(spr);
-        m_Choose = NULL;
  
         return true;
     }
@@ -496,12 +495,29 @@ void TSLayer::draw()
         m_Choose->setScale(2);
         m_iStat = 0;
         
-        if (removeBall()) {
+        if (removeBall(m_Choose)) {
             //add score
+            
+            m_Choose = NULL;
         }
         else {
             //add 3 ball
-            random3Ball();
+            if (!random3Ball()) {
+
+            }
+            
+            if (m_SpiritPool.size() >= 81) {
+                memset(m_Map->m_TSMap, 0, m_Map->m_width*m_Map->m_height);
+                m_MapSpr.clear();
+                std::set<TSSprite*>::iterator iter = m_SpiritPool.begin();
+                for (; iter != m_SpiritPool.end(); iter++) {
+                    this->removeChild(*iter, true);
+                }
+                m_SpiritPool.clear();
+                m_Choose = NULL;
+                
+                random3Ball();
+            }            
         }
         
         for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
@@ -598,6 +614,8 @@ bool TSLayer::randomBall()
     m_MapSpr[Pos.m_x][Pos.m_y] = spr;
     
     m_SpiritPool.insert(spr);
+    
+    removeBall(spr);
     
     return true;
 }

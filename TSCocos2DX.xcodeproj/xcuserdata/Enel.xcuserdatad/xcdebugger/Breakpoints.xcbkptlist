@@ -58,11 +58,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "606"
-         endingLineNumber = "606">
+         startingLineNumber = "647"
+         endingLineNumber = "647">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -134,11 +134,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382812872.301932"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "462"
-         endingLineNumber = "462"
+         startingLineNumber = "484"
+         endingLineNumber = "484"
          landmarkName = "TSLayer::draw()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -147,11 +147,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "541"
-         endingLineNumber = "541"
+         startingLineNumber = "580"
+         endingLineNumber = "580"
          landmarkName = "TSLayer::draw()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -160,11 +160,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "508"
-         endingLineNumber = "508"
+         startingLineNumber = "547"
+         endingLineNumber = "547"
          landmarkName = "TSLayer::draw()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -173,11 +173,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "495"
-         endingLineNumber = "495"
+         startingLineNumber = "534"
+         endingLineNumber = "534"
          landmarkName = "TSLayer::draw()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -186,11 +186,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "568"
-         endingLineNumber = "568"
+         startingLineNumber = "607"
+         endingLineNumber = "607"
          landmarkName = "TSLayer::randomBall()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -199,11 +199,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "570"
-         endingLineNumber = "570"
+         startingLineNumber = "609"
+         endingLineNumber = "609"
          landmarkName = "TSLayer::randomBall()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -212,11 +212,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382813624.5691"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "577"
-         endingLineNumber = "577"
+         startingLineNumber = "616"
+         endingLineNumber = "616"
          landmarkName = "TSLayer::randomBall()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -225,11 +225,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382812872.301932"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "471"
-         endingLineNumber = "471"
+         startingLineNumber = "493"
+         endingLineNumber = "493"
          landmarkName = "TSLayer::draw()"
          landmarkType = "5">
       </FileBreakpoint>
@@ -238,12 +238,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382812128.478401"
+         timestampString = "382812872.301932"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "429"
-         endingLineNumber = "429"
-         landmarkName = "TSLayer::removeBall()"
+         startingLineNumber = "451"
+         endingLineNumber = "451"
+         landmarkName = "TSLayer::removeBall(TSSprite* pChoose)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -251,12 +251,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382811475.096309"
+         timestampString = "382812872.301932"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "261"
-         endingLineNumber = "261"
-         landmarkName = "TSLayer::removeBall()"
+         startingLineNumber = "266"
+         endingLineNumber = "266"
+         landmarkName = "TSLayer::removeBall(TSSprite* pChoose)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -264,12 +264,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TSCocos2DX/TSLayer.cpp"
-         timestampString = "382811475.096309"
+         timestampString = "382812872.301932"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "362"
-         endingLineNumber = "362"
-         landmarkName = "TSLayer::removeBall()"
+         startingLineNumber = "379"
+         endingLineNumber = "379"
+         landmarkName = "TSLayer::removeBall(TSSprite* pChoose)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -282,6 +282,19 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "202"
          endingLineNumber = "202">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "TSCocos2DX/TSLayer.cpp"
+         timestampString = "382813344.850993"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
+         landmarkName = "TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
