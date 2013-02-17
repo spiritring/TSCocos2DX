@@ -12,6 +12,7 @@
 #include <iostream>
 #include <list>
 #include "cocos2d.h"
+#include "TSSprite.h"
 
 class NEAStar;
 class TSMap;
@@ -43,7 +44,7 @@ private:
     NEAStar* m_Star;
     
     //Game
-    cocos2d::CCSprite* m_Choose;
+    TSSprite* m_Choose;
     
     std::list<cocos2d::CCSprite*> m_pPathSpriteList;
 };

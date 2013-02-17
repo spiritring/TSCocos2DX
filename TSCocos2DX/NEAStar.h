@@ -90,6 +90,9 @@ public:
 class NEAStar {
 public:
 	NEAStar() {
+        
+        
+        
 	}
 
 	inline bool isCloseList(TSPoint& pos)
@@ -110,18 +113,25 @@ public:
 
 	void run() {
 		TSNode* note = new TSNode(pStart,pStart,pEnd,NULL);
+        releasePool.push_back(note);
         
         memset(pTSMap->m_TSMapclose, 0, sizeof(char) * pTSMap->m_width * pTSMap->m_height);
 
 		while (true)
 		{
-			if (pCurrentPos == pEnd) {	
+			if (pCurrentPos == pEnd) {
 				break;
 			}
 
 			pCurrentPos = note->pPos;
 			openList.remove(note);
 			closeList.push_back(note);
+            
+            if (note->pPos.m_x*pTSMap->m_width+note->pPos.m_y > pTSMap->m_width * pTSMap->m_height)
+            {
+                printf("FFFF");
+            }
+            
 			pTSMap->m_TSMapclose[note->pPos.m_x*pTSMap->m_width+note->pPos.m_y] = 1;
 
 			for (int i = 0 ; i < 4 ; i++)
@@ -135,7 +145,10 @@ public:
 				{
 					if (isTSMapBlock(_Pos) && isCloseList(_Pos))
 					{
-						openList.push_back(new TSNode(_Pos,pStart,pEnd,note));
+                        TSNode* _node = new TSNode(_Pos,pStart,pEnd,note);
+                        releasePool.push_back(_node);
+                        
+						openList.push_back(_node);
 						pTSMap->m_TSMapclose[_Pos.m_x*pTSMap->m_width+_Pos.m_y] = 1;
 					}
 				}
@@ -166,6 +179,12 @@ public:
 		pEnd = end;
 		pTSMap = TSMap;
         
+        for (std::list<TSNode*>::iterator iter = releasePool.begin(); iter != releasePool.end();
+             iter++) {
+            delete *iter;
+        }
+        releasePool.clear();
+        
         openList.clear();
         closeList.clear();
 	}
@@ -183,6 +202,8 @@ public:
 
 	list<TSNode*> openList;
 	list<TSNode*> closeList;
+    
+    list<TSNode*> releasePool;
 };
 
 #endif // INCLUDE_NEASTAR_H

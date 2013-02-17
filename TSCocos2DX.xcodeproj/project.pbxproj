@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30E2D7E916D0F7A2006C6ECA /* TSSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E2D7E716D0F7A2006C6ECA /* TSSprite.cpp */; };
 		30EC7B9316D09F3600952E29 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EC7B9216D09F3600952E29 /* QuartzCore.framework */; };
 		30EC7B9516D09F3600952E29 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EC7B9416D09F3600952E29 /* OpenGLES.framework */; };
 		30EC7B9716D09F3600952E29 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EC7B9616D09F3600952E29 /* OpenAL.framework */; };
@@ -249,6 +250,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30E2D7E716D0F7A2006C6ECA /* TSSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSSprite.cpp; sourceTree = "<group>"; };
+		30E2D7E816D0F7A2006C6ECA /* TSSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSprite.h; sourceTree = "<group>"; };
 		30EC7B8E16D09F3600952E29 /* TSCocos2DX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSCocos2DX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30EC7B9216D09F3600952E29 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		30EC7B9416D09F3600952E29 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1669,6 +1672,8 @@
 		30EC7E3F16D09F3900952E29 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				30E2D7E716D0F7A2006C6ECA /* TSSprite.cpp */,
+				30E2D7E816D0F7A2006C6ECA /* TSSprite.h */,
 				30EC7E9F16D0BB3F00952E29 /* TSPoint.h */,
 				30EC7E9E16D0B95A00952E29 /* NEAStar.h */,
 				30EC7E4016D09F3900952E29 /* AppDelegate.h */,
@@ -1986,6 +1991,7 @@
 				30EC7E3916D09F3900952E29 /* HttpClient.cpp in Sources */,
 				30EC7E4216D09F3900952E29 /* AppDelegate.cpp in Sources */,
 				30EC7E4D16D0A3F200952E29 /* TSLayer.cpp in Sources */,
+				30E2D7E916D0F7A2006C6ECA /* TSSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2115,6 +2121,7 @@
 				30EC7E4A16D09F3900952E29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

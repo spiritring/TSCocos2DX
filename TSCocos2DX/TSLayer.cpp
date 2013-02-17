@@ -130,13 +130,12 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
         this->removeChild(*iter, true);
     }
-    m_pPathSpriteList.clear();
-    this->removeChild(m_Choose, true);
-    m_Choose = NULL;
     
     //new to find for best path
     TSPoint pO = TSPoint(5,4);
     TSPoint pT = TSPoint(x,y);
+    
+    //m_Star = new NEAStar();
     
 	m_Star->Init(pO, pT, m_Map);
     m_Star->run();
@@ -158,10 +157,6 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         
         TSNode = TSNode->pFather;
     }
-    
-    m_Choose = CCSprite::create("chess0.png");
-    m_Choose->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
-    this->addChild(m_Choose, 2, 1);
     
     
     return true;

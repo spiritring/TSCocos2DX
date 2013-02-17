@@ -4,8 +4,18 @@
 class TSPoint
 {
 public:
-	TSPoint();
-	TSPoint(int x, int y);
+	TSPoint()
+    :m_x(0),m_y(0)
+    {
+        
+    }
+    
+	TSPoint(int x, int y)
+    {
+        m_x = x;
+        m_y = y;
+    }
+    
 	~TSPoint(){}
 
 	bool operator==(TSPoint& p){
@@ -23,12 +33,5 @@ public:
 	int m_x;
 	int m_y;
 };
-
-TSPoint::TSPoint() : m_x(0),m_y(0){}
-
-TSPoint::TSPoint(int x, int y){
-	m_x = x;
-	m_y = y;
-}
 
 #endif // INCLUDE_TSPoint_H
