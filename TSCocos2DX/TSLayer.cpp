@@ -17,6 +17,10 @@
 using namespace cocos2d;
 using namespace CocosDenshion;
 
+
+float effectXXX = 1.0f;
+float effectXXXIndex = 1.0f;
+
 TSLayer::TSLayer()
 : m_Map(NULL),m_Star(NULL),m_Choose(NULL),m_iIndexPath(0),m_iStat(0)
 {
@@ -103,7 +107,7 @@ static CCRect getRect(CCNode* pNode)
 TSSprite* TSLayer::GetMeshSprite(TSPoint& pos)
 {
     TSSprite* spr = NULL;
-    std::vector<TSSprite*>::iterator iter = m_SpiritPool.begin();
+    std::set<TSSprite*>::iterator iter = m_SpiritPool.begin();
     for (; iter != m_SpiritPool.end(); iter++) {
         TSSprite* spr = *iter;
         if (spr->pos.m_x == pos.m_x && spr->pos.m_y == pos.m_y) {
@@ -132,11 +136,16 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     if (m_iStat == 0) {
         if (m_Choose != NULL) {
             m_Choose->setScale(2);
+            effectXXX = 1;
+            effectXXXIndex = 1;
         }
         
         m_Choose = GetMeshSprite(xy);
         if (m_Choose != NULL) {
             m_iStat = 1;
+            m_Choose->setScale(2);
+            effectXXX = 1;
+            effectXXXIndex = 1;
         }
     }
     else if(m_iStat == 1)
@@ -156,6 +165,8 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
             printf("错误的寻路!");
             m_iStat = 0;
             m_Choose->setScale(2);
+            effectXXX = 1;
+            effectXXXIndex = 1;
             m_Choose = NULL;
             return false;
         }
@@ -182,6 +193,7 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         
         m_iStat = 2;
         m_Map->m_TSMap[m_Choose->pos.m_x * m_Map->m_width + m_Choose->pos.m_y] = 0;
+        m_MapSpr[m_Choose->pos.m_x][m_Choose->pos.m_y] = NULL;
     }
     
     return true;
@@ -192,36 +204,280 @@ bool TSLayer::removeBall()
     if (m_Choose == NULL) {
         return false;
     }
+    TSPoint pO = m_Choose->pos;
+    std::list<TSSprite*> pRList;
+    
+    std::list<TSSprite*> pUDList;
+    int count = 0;
+    int index = 0;
+    //up down
+    for (; ; index++) {
+        pO.m_y--;
+        if (pO.m_y < 0) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pUDList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    pO = m_Choose->pos;
+    index = 0;
+    //up down
+    for (; ; index++) {
+        pO.m_y++;
+        if (pO.m_y > 8) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pUDList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    if (count >= 4) {
+        pRList.merge(pUDList);
+    }
+    
+    
+    /////////////////////////////
+    pO = m_Choose->pos;
+    count = 0;
+    index = 0;
+    std::list<TSSprite*> pLRList;
+    //left right
+    for (; ; index++) {
+        pO.m_x--;
+        if (pO.m_x < 0) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pLRList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    pO = m_Choose->pos;
+    index = 0;
+    //up down
+    for (; ; index++) {
+        pO.m_x++;
+        if (pO.m_x > 8) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pLRList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    if (count >= 4) {
+        pRList.merge(pLRList);
+    }
+    
+    
+    //  \//
+    pO = m_Choose->pos;
+    count = 0;
+    index = 0;
+    std::list<TSSprite*> pXList;
+    //left right
+    for (; ; index++) {
+        pO.m_x--;
+        pO.m_y--;
+        if (pO.m_x < 0 || pO.m_y < 0) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pXList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    pO = m_Choose->pos;
+    index = 0;
+    //up down
+    for (; ; index++) {
+        pO.m_x++;
+        pO.m_y++;
+        if (pO.m_x > 8 || pO.m_y > 8) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pXList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    if (count >= 4) {
+        pRList.merge(pXList);
+    }
+    
+    ///////////////////
+    pO = m_Choose->pos;
+    count = 0;
+    index = 0;
+    std::list<TSSprite*> pXXList;
+    for (; ; index++) {
+        pO.m_x--;
+        pO.m_y++;
+        if (pO.m_x < 0 || pO.m_y > 8) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pXXList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    pO = m_Choose->pos;
+    index = 0;
+    for (; ; index++) {
+        pO.m_x++;
+        pO.m_y--;
+        if (pO.m_x > 8 || pO.m_y < 0) {
+            break;
+        }
+        
+        TSSprite* spr = m_MapSpr[pO.m_x][pO.m_y];
+        if (spr != NULL) {
+            if (spr->iColor == m_Choose->iColor) {
+                count ++;
+                pXXList.push_back(spr);
+            }
+            else{
+                break;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    
+    if (count >= 4) {
+        pRList.merge(pXXList);
+    }
+    
+    std::list<TSSprite*>::iterator iter = pRList.begin();
+    for (; iter != pRList.end(); iter++) {
+        TSSprite* spr = *iter;
+        
+        m_Map->m_TSMap[spr->pos.m_x * m_Map->m_width + spr->pos.m_y] = 0;
+        m_MapSpr[spr->pos.m_x][spr->pos.m_y] = 0;
+        
+        this->removeChild(spr, true);
+        
+        m_SpiritPool.erase(spr);
+    }
+    
+    if (pRList.size() > 0) {
+        TSSprite* spr = m_Choose;
+        
+        m_Map->m_TSMap[spr->pos.m_x * m_Map->m_width + spr->pos.m_y] = 0;
+        m_MapSpr[spr->pos.m_x][spr->pos.m_y] = 0;
+        this->removeChild(spr, true);
+        m_SpiritPool.erase(spr);
+        m_Choose = NULL;
+ 
+        return true;
+    }
     
     
     
-    return true;
+    return false;
 }
 
 
-float effectXXX = 1.0f;
-float effectXXXIndex = 1.0f;
 
 void TSLayer::draw()
 {
-    if (m_Choose != NULL) {
-        
-        if (effectXXX < 1) {
-            effectXXXIndex = 1;
-            effectXXX = 1;
-        }
-        else if (effectXXX >= 2) {
-            effectXXXIndex = -1;
-            effectXXX = 2;
-        }
-        
-        effectXXX += 0.1 * effectXXXIndex;
-        
-        m_Choose->setScale(effectXXX);
-    }
-    
     if (m_iStat != 2) {
-
+        if (m_Choose != NULL) {
+            
+            if (effectXXX < 1) {
+                effectXXXIndex = 1;
+                effectXXX = 1;
+            }
+            else if (effectXXX >= 2) {
+                effectXXXIndex = -1;
+                effectXXX = 2;
+            }
+            
+            effectXXX += 0.1 * effectXXXIndex;
+            
+            m_Choose->setScale(effectXXX);
+        }
         
         return;
     }
@@ -236,7 +492,8 @@ void TSLayer::draw()
         int l = iter.m_x;
         int h = iter.m_y;
         m_Map->m_TSMap[l * m_Map->m_width + h] = 1;
-        
+        m_MapSpr[l][h] = m_Choose;
+        m_Choose->setScale(2);
         m_iStat = 0;
         
         if (removeBall()) {
@@ -338,8 +595,9 @@ bool TSLayer::randomBall()
     this->addChild(spr);
     
     m_Map->m_TSMap[Pos.m_x * m_Map->m_width + Pos.m_y] = 1;
+    m_MapSpr[Pos.m_x][Pos.m_y] = spr;
     
-    m_SpiritPool.push_back(spr);
+    m_SpiritPool.insert(spr);
     
     return true;
 }

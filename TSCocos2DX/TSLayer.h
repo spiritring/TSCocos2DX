@@ -12,6 +12,8 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <map>
+#include <set>
 #include "cocos2d.h"
 #include "TSSprite.h"
 
@@ -61,9 +63,11 @@ private:
     
     //Game
     TSSprite* m_Choose;
-    std::vector<TSSprite*> m_SpiritPool;
+    std::set<TSSprite*> m_SpiritPool;
     
     std::list<cocos2d::CCSprite*> m_pPathSpriteList;
+    
+    std::map<int,std::map<int,TSSprite*> > m_MapSpr;
     
     std::vector<TSPoint> m_pPath;
     int m_iIndexPath;
