@@ -15,7 +15,7 @@ using namespace cocos2d;
 using namespace CocosDenshion;
 
 TSLayer::TSLayer()
-: m_Map(NULL),m_Star(NULL)
+: m_Map(NULL),m_Star(NULL),m_Choose(NULL)
 {
     m_Map = new TSMap();
     m_Star = new NEAStar();
@@ -96,29 +96,6 @@ bool TSLayer::init()
         this->addChild(pT, 2, 1);
     }
     
-//    TSPoint pO = TSPoint(0,0);
-//    TSPoint pT = TSPoint(2,4);
-//    
-//	star.Init(pO, pT, &map);
-//    star.run();
-//    
-//    TSNode* TSNode = star.getResult();
-//    while (TSNode->pFather != NULL)
-//    {
-//        CCSprite* pT = CCSprite::create("chess2.png");
-//        CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
-//        pT->setPosition(pP);
-//        //pT->setScale(2);
-//        this->addChild(pT, 2, 1);
-//        
-//        TSNode = TSNode->pFather;
-//    }
-//    
-//    CCSprite* pBall = CCSprite::create("chess0.png");
-//    pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
-//    this->addChild(pBall, 2, 1);
-
-    
     return true;
 }
 
@@ -151,22 +128,22 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     
     //clear path sprite
     for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
-        this->removeChild(*iter,true);
+        this->removeChild(*iter, true);
     }
     m_pPathSpriteList.clear();
-    
+    this->removeChild(m_Choose, true);
+    m_Choose = NULL;
     
     //new to find for best path
-    TSPoint pO = TSPoint(0,0);
+    TSPoint pO = TSPoint(5,4);
     TSPoint pT = TSPoint(x,y);
     
-    TSMap map;
-    
-	m_Star->Init(pO, pT, &map);
+	m_Star->Init(pO, pT, m_Map);
     m_Star->run();
     
     TSNode* TSNode = m_Star->getResult();
     if (TSNode->pPos.m_x != x && TSNode->pPos.m_y != y) {
+        printf("错误的寻路!");
         return false;
     }
     
@@ -182,11 +159,9 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
         TSNode = TSNode->pFather;
     }
     
-
-    
-    CCSprite* pBall = CCSprite::create("chess0.png");
-    pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
-    this->addChild(pBall, 2, 1);
+    m_Choose = CCSprite::create("chess0.png");
+    m_Choose->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
+    this->addChild(m_Choose, 2, 1);
     
     
     return true;

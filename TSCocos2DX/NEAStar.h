@@ -47,6 +47,7 @@ public:
 		memset(m_TSMapclose,0,sizeof(char)*m_width*m_height);
 	}
 	~TSMap() {
+        delete m_TSMapclose;
 	}
 
 	char* m_TSMap;
@@ -109,6 +110,8 @@ public:
 
 	void run() {
 		TSNode* note = new TSNode(pStart,pStart,pEnd,NULL);
+        
+        memset(pTSMap->m_TSMapclose, 0, sizeof(char) * pTSMap->m_width * pTSMap->m_height);
 
 		while (true)
 		{

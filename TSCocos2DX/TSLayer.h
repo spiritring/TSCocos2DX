@@ -41,6 +41,10 @@ private:
     cocos2d::CCPoint m_pOO;
     TSMap* m_Map;
     NEAStar* m_Star;
+    
+    //Game
+    cocos2d::CCSprite* m_Choose;
+    
     std::list<cocos2d::CCSprite*> m_pPathSpriteList;
 };
 
