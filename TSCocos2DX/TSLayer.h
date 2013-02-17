@@ -26,6 +26,9 @@ public:
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(TSLayer);
+    
+private:
+    cocos2d::CCPoint m_pMeshPos[9][9];
 };
 
 #endif /* defined(__TSCocos2DX__TSLayer__) */
