@@ -162,6 +162,9 @@ public:
 		pCurrentPos = start;
 		pEnd = end;
 		pTSMap = TSMap;
+        
+        openList.clear();
+        closeList.clear();
 	}
 
 	TSNode* getResult()

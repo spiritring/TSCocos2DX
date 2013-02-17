@@ -14,6 +14,19 @@
 using namespace cocos2d;
 using namespace CocosDenshion;
 
+TSLayer::TSLayer()
+: m_Map(NULL),m_Star(NULL)
+{
+    m_Map = new TSMap();
+    m_Star = new NEAStar();
+}
+
+TSLayer::~TSLayer()
+{
+    delete m_Map;
+    delete m_Star;
+}
+
 CCScene* TSLayer::scene()
 {
     // 'scene' is an autorelease object
@@ -68,14 +81,11 @@ bool TSLayer::init()
         }
     }
     
-    NEAStar star;
-	TSMap map;
-    
-    for (int i = 0; i < map.m_width*map.m_height; i++) {
-        int l = i / map.m_width;
-        int h = i % map.m_height;
+    for (int i = 0; i < m_Map->m_width*m_Map->m_height; i++) {
+        int l = i / m_Map->m_width;
+        int h = i % m_Map->m_height;
         
-        if (map.m_TSMap[i] == 0) {
+        if (m_Map->m_TSMap[i] == 0) {
             continue;
         }
         
@@ -86,27 +96,27 @@ bool TSLayer::init()
         this->addChild(pT, 2, 1);
     }
     
-    TSPoint pO = TSPoint(0,0);
-    TSPoint pT = TSPoint(2,4);
-    
-	star.Init(pO, pT, &map);
-    star.run();
-    
-    TSNode* TSNode = star.getResult();
-    while (TSNode->pFather != NULL)
-    {
-        CCSprite* pT = CCSprite::create("chess2.png");
-        CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
-        pT->setPosition(pP);
-        //pT->setScale(2);
-        this->addChild(pT, 2, 1);
-        
-        TSNode = TSNode->pFather;
-    }
-    
-    CCSprite* pBall = CCSprite::create("chess0.png");
-    pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
-    this->addChild(pBall, 2, 1);
+//    TSPoint pO = TSPoint(0,0);
+//    TSPoint pT = TSPoint(2,4);
+//    
+//	star.Init(pO, pT, &map);
+//    star.run();
+//    
+//    TSNode* TSNode = star.getResult();
+//    while (TSNode->pFather != NULL)
+//    {
+//        CCSprite* pT = CCSprite::create("chess2.png");
+//        CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
+//        pT->setPosition(pP);
+//        //pT->setScale(2);
+//        this->addChild(pT, 2, 1);
+//        
+//        TSNode = TSNode->pFather;
+//    }
+//    
+//    CCSprite* pBall = CCSprite::create("chess0.png");
+//    pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
+//    this->addChild(pBall, 2, 1);
 
     
     return true;
@@ -138,6 +148,46 @@ bool TSLayer::ccTouchBegan(CCTouch* pTouch, CCEvent* event)
     }
     
     printf("我被点中了! x = %d y = %d \n", x, y);
+    
+    //clear path sprite
+    for (std::list<CCSprite*>::iterator iter = m_pPathSpriteList.begin(); iter != m_pPathSpriteList.end(); iter++) {
+        this->removeChild(*iter,true);
+    }
+    m_pPathSpriteList.clear();
+    
+    
+    //new to find for best path
+    TSPoint pO = TSPoint(0,0);
+    TSPoint pT = TSPoint(x,y);
+    
+    TSMap map;
+    
+	m_Star->Init(pO, pT, &map);
+    m_Star->run();
+    
+    TSNode* TSNode = m_Star->getResult();
+    if (TSNode->pPos.m_x != x && TSNode->pPos.m_y != y) {
+        return false;
+    }
+    
+    while (TSNode->pFather != NULL)
+    {
+        CCSprite* pT = CCSprite::create("chess2.png");
+        CCPoint pP = m_pMeshPos[TSNode->pPos.m_x][TSNode->pPos.m_y];
+        pT->setPosition(pP);
+        //pT->setScale(2);
+        this->addChild(pT, 2, 1);
+        m_pPathSpriteList.push_back(pT);
+        
+        TSNode = TSNode->pFather;
+    }
+    
+
+    
+    CCSprite* pBall = CCSprite::create("chess0.png");
+    pBall->setPosition(m_pMeshPos[pO.m_x][pO.m_y]);
+    this->addChild(pBall, 2, 1);
+    
     
     return true;
 }

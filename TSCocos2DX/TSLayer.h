@@ -10,11 +10,18 @@
 #define __TSCocos2DX__TSLayer__
 
 #include <iostream>
+#include <list>
 #include "cocos2d.h"
+
+class NEAStar;
+class TSMap;
 
 class TSLayer : public cocos2d::CCLayer
 {
 public:
+    TSLayer();
+    virtual ~TSLayer();
+    
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
     virtual bool init();
     
@@ -32,6 +39,9 @@ public:
 private:
     cocos2d::CCPoint m_pMeshPos[9][9];
     cocos2d::CCPoint m_pOO;
+    TSMap* m_Map;
+    NEAStar* m_Star;
+    std::list<cocos2d::CCSprite*> m_pPathSpriteList;
 };
 
 #endif /* defined(__TSCocos2DX__TSLayer__) */
